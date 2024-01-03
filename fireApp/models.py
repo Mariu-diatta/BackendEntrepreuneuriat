@@ -8,9 +8,9 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 class CustomAccountManager(BaseUserManager):
     def create_superuser(self, nom, prenom, mail, tel, password, **other_fields):
-        other_fields.setdefault('is_staff', False)
-        other_fields.setdefault('is_superuser', False)
-        other_fields.setdefault('is_active', False)
+        other_fields.setdefault('is_staff', True)
+        other_fields.setdefault('is_superuser', True)
+        other_fields.setdefault('is_active', True)
         if other_fields.get('is_staff') is not True:
             if other_fields.get('is_superuser') is not True:
                 raise ValueError('Superuser must be assigned to is_superuser=True.')
@@ -40,8 +40,8 @@ class User(AbstractBaseUser,PermissionsMixin):
     password = models.CharField(max_length=255)
     message = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
-    is_superuser = models.BooleanField(default=False)
-    is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=True)
     USERNAME_FIELD = 'mail'
     REQUIRED_FIELDS = ['nom', 'prenom', 'tel']
     objects = CustomAccountManager()
